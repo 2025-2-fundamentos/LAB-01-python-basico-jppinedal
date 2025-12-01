@@ -26,3 +26,18 @@ def pregunta_06():
      ('jjj', 5, 17)]
 
     """
+    key_stats = {}
+    with open("files/input/data.csv", "r") as file:
+        for line in file:
+            columns = line.split("\t")
+            dict_entries = columns[4].split(",")
+            for entry in dict_entries:
+                key, value_str = entry.split(":")
+                value = int(value_str)
+                if key in key_stats:
+                    current_min, current_max = key_stats[key]
+                    key_stats[key] = (min(current_min, value), max(current_max, value))
+                else:
+                    key_stats[key] = (value, value)
+    result = [(key, min_max[0], min_max[1]) for key, min_max in sorted(key_stats.items())]
+    return result
